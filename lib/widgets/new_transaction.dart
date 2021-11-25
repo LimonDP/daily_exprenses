@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -6,6 +8,20 @@ class NewTransaction extends StatelessWidget {
   NewTransaction({required this.transactionFunction});
   final titleController = TextEditingController();
   final amountController = TextEditingController();
+  submitData() {
+    final submitTitle = titleController.text;
+    final submitAmount = amountController.text;
+    if (submitTitle.isEmpty ||
+        submitAmount.isEmpty ||
+        double.parse(submitAmount) < 0) {
+      return;
+    }
+    final submitAmounts = double.parse(submitAmount);
+    transactionFunction(
+      submitTitle,
+      submitAmounts,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +56,8 @@ class NewTransaction extends StatelessWidget {
                     labelStyle: TextStyle(fontSize: 20, color: Colors.black),
                   ),
                   controller: titleController,
+                  keyboardType: TextInputType.text,
+                  onSubmitted: (_) => submitData,
                 ),
                 SizedBox(
                   height: 10,
@@ -53,6 +71,7 @@ class NewTransaction extends StatelessWidget {
                   ),
                   controller: amountController,
                   keyboardType: TextInputType.number,
+                  onSubmitted: (_) => submitData,
                 ),
                 SizedBox(
                   height: 10,
@@ -60,10 +79,7 @@ class NewTransaction extends StatelessWidget {
                 Container(
                   margin: EdgeInsets.only(right: 20),
                   child: ElevatedButton(
-                    onPressed: () {
-                      transactionFunction(titleController.text,
-                          double.parse(amountController.text));
-                    },
+                    onPressed: submitData,
                     child: Text(
                       'Add',
                       style: TextStyle(fontSize: 20),

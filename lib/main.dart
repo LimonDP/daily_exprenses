@@ -18,11 +18,13 @@ class MyApp extends StatelessWidget {
           centerTitle: true,
           backgroundColor: Colors.green.shade900,
         ),
-        body: SafeArea(
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [UserTransaction()],
+        body: SingleChildScrollView(
+          child: SafeArea(
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [UserTransaction()],
+              ),
             ),
           ),
         ),
